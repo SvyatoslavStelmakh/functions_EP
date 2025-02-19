@@ -33,7 +33,7 @@ int FindRootA(double (*function)(double), double* x, double up_lim, double down_
 	else
 		*x = down_lim;
 
-	while (eps <= fabs(function(*x) / Derivative(function, *x)))
+	while (eps < fabs(function(*x) / Derivative(function, *x)))
 	{
 		*x = *x - (function(*x) / Derivative(function, *x));
 		++k_iter;
@@ -51,7 +51,7 @@ int FindRootB(double (*function)(double , double ), double* x, double s, double 
 	else
 		*x = down_lim;
 
-	while (eps <= fabs(function(*x, s) / Derivative(function, *x, s)))
+	while (eps < fabs(function(*x, s) / Derivative(function, *x, s)))
 	{
 		*x = *x - (function(*x, s) / Derivative(function, *x, s));
 		++k_iter;
