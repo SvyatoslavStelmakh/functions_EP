@@ -23,7 +23,7 @@ int main()
     std::cin >> eps;*/
    
     FindRootA(Function1, &x);
-   /* std::cout << x << std::endl;
+    /* std::cout << x << std::endl;
     std::cout << Function1(FindRootA(Function1, &x)) << std::endl;
     std::cout << FindRootA(Function1, &x) << std::endl;*/
     std::cout << std::setw(setw) << "x" << std::setw(setw) << "f(x)" << std::setw(setw) << "k_iter" << std::endl;
@@ -34,7 +34,5 @@ int main()
     {
         FindRootB(Function2, &x, s);
         std::cout << std::setw(setw) << s << std::setw(setw) << x << std::setw(setw) << Function2(x, s) << std::setw(setw) << FindRootB(Function2, &x, s) << std::endl;
-      }
-
-
+    }
 }

@@ -1,41 +1,38 @@
+#define _USE_MATH_DEFINES
 #include "Header1.4b.h"
 
-double Derivative(double (*function)(double), double x)
+double DerivativeA(double x)
 {
-	double h = 1e-5; // Шаг для численного дифференцирования
-	return (function(x + h) - function(x - h)) / (2 * h);
+	return (3 * pow((x - 1), 2));
 }
 
-double Derivative(double (*function)(double x, double s), double x, double s)
+double DerivativeB(double x, double s)
 {
-	double h = 1e-5; // Шаг для численного дифференцирования
-	return (function(x + h, s) - function(x - h, s)) / (2 * h);
+	return (-2*s*cos(M_PI * x)*sin(M_PI * x)* M_PI-(0.5/pow(x, 0.5)));
 }
 
-double SecondDerivative(double (*function)(double), double x)
+double SecondDerivativeA(double x)
 {
-	double h = 1e-5; // Шаг для численного дифференцирования
-	return (function(x + h) - 2 * function(x) + function(x - h)) / (h * h);
+	return (6 * (x - 1));
 }
 
-double SecondDerivative(double (*function)(double x, double s), double x, double s)
+double SecondDerivativeB(double x, double s)
 {
-	double h = 1e-5; // Шаг для численного дифференцирования
-	return (function(x + h, s) - 2 * function(x, s) + function(x - h, s)) / (h * h);
+	return (2 * s * M_PI * M_PI * pow(sin(M_PI * x), 2) - 2 * s * M_PI * M_PI * pow(cos(M_PI * x), 2));
 }
 
 int FindRootA(double (*function)(double), double* x, double up_lim, double down_lim, double eps)
 {
 	int k_iter = 0;
 	*x = 0;
-	if (function(up_lim) * SecondDerivative(function, up_lim) > 0)
+	if (function(up_lim) * SecondDerivativeA(up_lim) > 0)
 		*x = up_lim;
 	else
 		*x = down_lim;
 
-	while (eps < fabs(function(*x) / Derivative(function, *x)))
+	while (eps <= fabs(function(*x)))
 	{
-		*x = *x - (function(*x) / Derivative(function, *x));
+		*x = *x - (function(*x) / DerivativeA(*x));
 		++k_iter;
 	}
 
@@ -46,14 +43,14 @@ int FindRootB(double (*function)(double , double ), double* x, double s, double 
 {
 	int k_iter = 0;
 	*x = 0;
-	if (function(up_lim, s) * SecondDerivative(function, up_lim, s) > 0)
+	if (function(up_lim, s) * SecondDerivativeB(up_lim, s) > 0)
 		*x = up_lim;
 	else
 		*x = down_lim;
 
-	while (eps < fabs(function(*x, s) / Derivative(function, *x, s)))
+	while (eps <= fabs(function(*x, s)))
 	{
-		*x = *x - (function(*x, s) / Derivative(function, *x, s));
+		*x = *x - (function(*x, s) / DerivativeB(*x, s));
 		++k_iter;
 	}
 
