@@ -8,7 +8,7 @@ double DerivativeA(double x)
 
 double DerivativeB(double x, double s)
 {
-	return (-2*s*cos(M_PI * x)*sin(M_PI * x)* M_PI-(0.5/pow(x, 0.5)));
+	return (-2 * s * cos(M_PI * x) * sin(M_PI * x) * M_PI - (0.5 / pow(x, 0.5)));
 }
 
 double SecondDerivativeA(double x)
@@ -19,40 +19,51 @@ double SecondDerivativeA(double x)
 double SecondDerivativeB(double x, double s)
 {
 	return (2 * s * M_PI * M_PI * pow(sin(M_PI * x), 2) - 2 * s * M_PI * M_PI * pow(cos(M_PI * x), 2));
+
 }
 
-int FindRootA(double (*function)(double), double* x, double up_lim, double down_lim, double eps)
+int FindRootA(double (*function)(double), int& k_iter, double up_lim, double down_lim, double eps)
 {
-	int k_iter = 0;
-	*x = 0;
-	if (function(up_lim) * SecondDerivativeA(up_lim) > 0)
-		*x = up_lim;
+	int x0, x;
+	k_iter = 0;
+	/*if (function(up_lim) * SecondDerivativeA(up_lim) > 0)
+		x0 = up_lim;
 	else
-		*x = down_lim;
+		x0 = down_lim;*/
 
-	while (eps <= fabs(function(*x)))
+	x0 = (up_lim + down_lim) / 2.0;
+	while (true)
 	{
-		*x = *x - (function(*x) / DerivativeA(*x));
+		x = x0 - (function(x0) / DerivativeA(x0));
 		++k_iter;
+		if (fabs(x - x0) < eps) 
+			break;
+		x0 = x;
 	}
 
-	return k_iter;
+	return x;
 }
 
-int FindRootB(double (*function)(double , double ), double* x, double s, double up_lim, double down_lim, double eps )
+int FindRootB(double (*function)(double , double ), int& k_iter, double s, double up_lim, double down_lim, double eps )
 {
-	int k_iter = 0;
-	*x = 0;
+	int x0, x;
+	k_iter = 0;
+	/*
 	if (function(up_lim, s) * SecondDerivativeB(up_lim, s) > 0)
-		*x = up_lim;
+		x0 = up_lim;
 	else
-		*x = down_lim;
+		x0 = down_lim;*/
 
-	while (eps <= fabs(function(*x, s)))
+	x0 = (up_lim + down_lim) / 2.0;
+
+	while (true)
 	{
-		*x = *x - (function(*x, s) / DerivativeB(*x, s));
+		x = x0 - (function(x0, s) / DerivativeB(x0, s));
 		++k_iter;
+		if (fabs(x - x0) < eps) 
+			break;
+		x0 = x;
 	}
 
-	return k_iter;
+	return x;
 }
