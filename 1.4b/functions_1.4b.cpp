@@ -48,7 +48,7 @@ double FindRootA(double (*function)(double), int& k_iter, double b, double a, do
 
 double FindRootB(double (*function)(double , double ), int& k_iter, double s, double b, double a, double eps )
 {
-	double x0, x;
+	double x0 = 0, x = 0;
 	k_iter = 0;
 
 	x0 = (a + b) / 2;
@@ -58,15 +58,14 @@ double FindRootB(double (*function)(double , double ), int& k_iter, double s, do
 	else
 		x0 = a;*/
 
-	do
+	while (true)
 	{
 		x = x0 - (function(x0, s) / DerivativeB(x0, s));
 		++k_iter;
+ 		if (fabs(x - x0) < eps) 
+			break;
 		x0 = x;
- 		/*if (fabs(x - x0) < eps) 
-			break;*/
-		
-	} while (fabs(x - x0) < eps);
+	}
 
 	return x;
 }
